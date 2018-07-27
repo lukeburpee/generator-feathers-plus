@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const Sequelize = require('sequelize');
 
 const { camelCase, kebabCase, snakeCase, upperFirst } = require('lodash');
-const { EOL } = require('os');
 const { existsSync } = require('fs');
 const { inspect } = require('util');
 const { join } = require('path');
@@ -23,6 +22,8 @@ const stringifyPlus = require('../../lib/stringify-plus');
 
 const { updateSpecs } = require('../../lib/specs');
 
+const EOL = '\n';
+
 const OAUTH2_STRATEGY_MAPPINGS = {
   auth0: 'passport-auth0',
   google: 'passport-google-oauth20',
@@ -33,8 +34,8 @@ const OAUTH2_STRATEGY_MAPPINGS = {
 const AUTH_TYPES = {
   local: '@types/feathersjs__authentication-local',
   auth0: '@types/feathersjs__authentication-oauth2',
-  // google:
-  facebook: '@types/passport-facebook',
+  google: '@types/feathersjs__authentication-oauth2',
+  facebook: ['@types/passport-facebook', '@types/feathersjs__authentication-oauth2'],
   github: '@types/passport-github',
 };
 
@@ -285,6 +286,11 @@ module.exports = function generatorWriting (generator, what) {
       }
     }
 
+    // Custom template context.
+    context = Object.assign({}, context, {
+      getNameSpace: generator.getNameSpace
+    });
+
     // Modules to generate
     todos = [
       copy([tpl, '_editorconfig'], '.editorconfig', true),
@@ -324,7 +330,7 @@ module.exports = function generatorWriting (generator, what) {
     } else {
       todos = todos.concat(
         copy([tpl, 'tslint.json'], 'tslint.json', true),
-        copy([tpl, 'tsconfig.json'], 'tsconfig.json', true),
+        tmpl([tpl, 'tsconfig.json'], 'tsconfig.json', true),
         copy([tpl, 'tsconfig.test.json'], 'tsconfig.test.json', true),
       );
     }
@@ -559,6 +565,9 @@ module.exports = function generatorWriting (generator, what) {
       tmpl([namePath, 'name.validate.ejs'],         [libDir,  'services', ...sfa, kn, `${kn}.validate.${js}`]   ),
       tmpl([namePath, 'name.hooks.ejs'],            [libDir,  'services', ...sfa, kn, `${kn}.hooks.${js}`]      ),
       tmpl([serPath,  'index.ejs'],                 [libDir,  'services', `index.${js}`]                ),
+
+      tmpl([tpl, 'src', 'app.interface.ejs'], [src, 'app.interface.ts'],         false, isJs),
+      tmpl([tpl, 'src', 'typings.d.ejs'],     [src, 'typings.d.ts'],             false, isJs),
     ];
 
     // Generate modules
@@ -694,7 +703,8 @@ module.exports = function generatorWriting (generator, what) {
 
     const todos = !Object.keys(connections).length ? [] : [
       json(newConfig, ['config', 'default.json']),
-      tmpl([srcPath, 'app.ejs'], [libDir, `app.${js}`])
+      tmpl([srcPath, 'app.ejs'], [libDir, `app.${js}`]),
+      tmpl([tpl, 'src', 'typings.d.ejs'],     [src, 'typings.d.ts'],             false, isJs),
     ];
 
     Object.keys(_adapters).sort().forEach(adapter => {
@@ -741,7 +751,7 @@ module.exports = function generatorWriting (generator, what) {
       '@feathersjs/authentication-jwt'
     ];
 
-    const devDependencies = [
+    let devDependencies = [
       '@types/feathersjs__authentication',
       '@types/feathersjs__authentication-jwt',
     ];
@@ -764,7 +774,8 @@ module.exports = function generatorWriting (generator, what) {
       }
 
       if (AUTH_TYPES[strategy]) {
-        devDependencies.push(AUTH_TYPES[strategy]);
+        //devDependencies.push(AUTH_TYPES[strategy]);
+        devDependencies = devDependencies.concat(AUTH_TYPES[strategy]);
       }
     });
 
@@ -799,7 +810,8 @@ module.exports = function generatorWriting (generator, what) {
     Object.keys(specs.middlewares || {}).sort().forEach(mwName => {
       const fileName = specs.middlewares[mwName].kebab;
       todos.push(
-        tmpl([mwPath, 'middleware.ejs'], [libDir, 'middleware', `${fileName}.${js}`], true, null, { mwName })
+        tmpl([mwPath, 'middleware.ejs'], [libDir, 'middleware', `${fileName}.${js}`], true, null, { mwName }),
+        tmpl([tpl, 'src', 'typings.d.ejs'],     [src, 'typings.d.ts'],             false, isJs),
       );
     });
 
@@ -848,7 +860,9 @@ module.exports = function generatorWriting (generator, what) {
       tmpl([qlPath, 'sql.execute.sequelize.ejs'], [libDir, 'services', 'graphql', `sql.execute.sequelize.${js}`]),
       tmpl([qlPath, 'sql.metadata.ejs'], [libDir, 'services', 'graphql', `sql.metadata.${js}`]),
       tmpl([qlPath, 'sql.resolvers.ejs'], [libDir, 'services', 'graphql', `sql.resolvers.${js}`]),
-      tmpl([serPath, 'index.ejs'], [libDir, 'services', `index.${js}`])
+      tmpl([serPath, 'index.ejs'], [libDir, 'services', `index.${js}`]),
+
+      tmpl([tpl, 'src', 'typings.d.ejs'],     [src, 'typings.d.ts'],             false, isJs),
     ];
 
     // Generate modules

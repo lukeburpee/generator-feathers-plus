@@ -1,7 +1,7 @@
 {
   "name": "@feathers-plus/generator-feathers-plus",
   "description": "A Yeoman generator to (re)generate a FeathersJS application supporting both REST and GraphQL architectural concepts and their query languages.",
-  "version": "0.2.15",
+  "version": "0.2.27",
   "homepage": "https://github.com/feathers-plus/generator-feathers-plus",
   "main": "lib/",
   "keywords": [
@@ -42,14 +42,14 @@
     "release:major": "npm version major && npm publish",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "lint": "semistandard generators/*.js generators/**/*.js lib/*.js lib/**/*.js test/*.js --fix | snazzy",
-    "mocha": "npm run mocha:code && npm run mocha:tests",
-    "mocha:1": "mocha test/1",
-    "mocha:code": "mocha test/ --timeout 1200000 --exit --bail --grep \"writes code\"",
     "mocha:tests": "mocha test/ --timeout 1200000 --exit --bail --grep \"runs test\"",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
-    "test": "npm run lint && npm run coverage",
+    "test": "mocha test/ --timeout 1200000 --exit --bail",
+    "testxxx": "npm run lint && npm run coverage",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "root": "npm root -g",
+    "list": "npm list -g"
   },
   "semistandard": {
     "sourceType": "module",
