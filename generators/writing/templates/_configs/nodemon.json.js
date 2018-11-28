@@ -13,16 +13,14 @@ module.exports = function (generator, envName) {
       ts: 'ts-node --files --typeCheck'
     },
     events: {
-      start: 'tslint -p tsconfig.json -c tslint.json',
-      restart: 'tslint -p tsconfig.json -c tslint.json'
+      start: 'tslint -p tsconfig.json -c tslint.json'
     }
   } : {
     env: {
       NODE_ENV: envName
     },
     events: {
-      start: `eslint ${specs.app.src}/. test/. --config .eslintrc.json`,
-      restart: `eslint ${specs.app.src}/. test/. --config .eslintrc.json`
+      start: `eslint ${specs.app.src}/. test/. --config .eslintrc.json`
     }
   };
   return config;
