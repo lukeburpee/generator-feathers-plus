@@ -14,6 +14,7 @@ const GithubStrategy = require('passport-github')
 
 let moduleExports = function (app) {
   const config = app.get('authentication')
+  // !code: func_init // !end
 
   // Set up authentication with the secret
   app.configure(authentication(config))
@@ -23,22 +24,26 @@ let moduleExports = function (app) {
 
   app.configure(oauth2(Object.assign({
     name: 'auth0',
-    Strategy: Auth0Strategy
+    Strategy: Auth0Strategy,
+    // !code: auth0_options // !end
   }, config.auth0)))
 
   app.configure(oauth2(Object.assign({
     name: 'google',
-    Strategy: GoogleStrategy
+    Strategy: GoogleStrategy,
+    // !code: google_options // !end
   }, config.google)))
 
   app.configure(oauth2(Object.assign({
     name: 'facebook',
-    Strategy: FacebookStrategy
+    Strategy: FacebookStrategy,
+    // !code: facebook_options // !end
   }, config.facebook)))
 
   app.configure(oauth2(Object.assign({
     name: 'github',
-    Strategy: GithubStrategy
+    Strategy: GithubStrategy,
+    // !code: github_options // !end
   }, config.github)))
 
   // !code: loc_2 // !end
