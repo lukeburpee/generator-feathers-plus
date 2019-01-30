@@ -1,0 +1,12 @@
+// <%= adapter %>.<%- js %> - <%= adapter %> adapter
+<%- tplTsOnly([`import { App } from './app.interface'${sc}`, '']) %>
+<%- tplImports('logger', './logger') %>
+<%- insertFragment('imports') %>
+<%- insertFragment('init') %>
+
+<%- tplExport('function (app) {', 'function (app: App) {') %>
+  <%- insertFragment('func_init') %>
+  <%- insertFragment('more') %>
+}<%- tplJsOnly([sc]) %>
+<%- insertFragment('funcs') %>
+<%- insertFragment('end') %>

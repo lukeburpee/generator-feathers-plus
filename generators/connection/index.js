@@ -42,7 +42,7 @@ module.exports = class ConnectionGenerator extends Generator {
     const prompts = [{
       type: 'list',
       name: 'database',
-      message: 'Which database are you connecting to?',
+      message: 'What type of connection are you creating?',
       default: () => isSqlAdapter ? 'postgres' : 'nedb',
       choices: () => isSqlAdapter ? [
         { name: 'MySQL (MariaDB)', value: 'mysql' },
@@ -51,6 +51,7 @@ module.exports = class ConnectionGenerator extends Generator {
         { name: 'SQLite', value: 'sqlite' },
         { name: 'SQL Server', value: 'mssql' }
       ] : [
+        { name: 'Custom', value: 'custom' },
         { name: 'Memory', value: 'memory' }, // no adapter to choose
         { name: 'MongoDB', value: 'mongodb' },
         { name: 'MySQL (MariaDB)', value: 'mysql' },
@@ -122,6 +123,7 @@ module.exports = class ConnectionGenerator extends Generator {
         }
 
         switch (database) {
+          case 'custom':
           case 'nedb':
           case 'rethinkdb':
           case 'memory':
@@ -131,11 +133,41 @@ module.exports = class ConnectionGenerator extends Generator {
         return true;
       }
     }, {
+      type: 'input',
+      name: 'adapter',
+      message: 'What should the custom connection adapter be called?',
+      default (current) {
+        return 'custom'
+      },
+      when (current) {
+        const { database } = combineProps(current);
+        if (database === 'custom') {
+          return true
+        }
+        return false
+      }
+    }, {
+      type: 'input',
+      name: 'customDeps',
+      message: 'What are the custom connection adapter dependencies?',
+      default (current) {
+        const { adapter } = combineProps(current);
+        return adapter
+      },
+      when (current) {
+        const { database } = combineProps(current);
+        if (database === 'custom') {
+          return true
+        }
+        return false
+      }
+    }, {
       name: 'connectionString',
-      message: 'What is the database connection string?',
+      message: 'What is the connection string?',
       default (current) {
         const { database } = combineProps(current);
         const defaultConnectionStrings = {
+          custom: `http://localhost`,
           mongodb: `mongodb://localhost:27017/${databaseName}`,
           mysql: `mysql://root:@localhost:3306/${databaseName}`,
           nedb: 'nedb://../data',
