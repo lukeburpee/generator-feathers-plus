@@ -38,7 +38,7 @@ const generatorSpecs = require('../feathers-gen-specs.json')<%- sc %>
   __temp = specs._adapters[__adapter];
   __module = __temp.substring(0, __temp.length - 4);
 -%>
-<%- tplImports(__adapter, `./${__module}`) %>
+<%- tplImports(__adapter, `./${ __module === 'custom' ? __adapter : __module }`) %>
 <% }) -%>
 <%# --- forEach-1 ends above. -%>
 <%- insertFragment('imports') %>
