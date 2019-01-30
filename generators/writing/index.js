@@ -925,7 +925,7 @@ module.exports = function generatorWriting (generator, what) {
           tmpl(
             [srcPath, '_adapters', _adapters[adapter]],
             [libDir, `${adapter}.${js}`],
-            !forceWrite, false, { database: connections[connectionsAdapter].database, adapter } )
+            !forceWrite, false, { database: connections[connectionsAdapter].database, dependencies: connections[connectionsAdapter].customDependencies, adapter } )
         );
       }
     });

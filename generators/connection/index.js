@@ -147,6 +147,21 @@ module.exports = class ConnectionGenerator extends Generator {
         return false
       }
     }, {
+      type: 'input',
+      name: 'customDependencies',
+      message: 'What are the custom connection adapter dependencies?',
+      default (current) {
+        const { adapter } = current
+        return adapter
+      },
+      when (current) {
+        const { database } = combineProps(current);
+        if (database === 'custom') {
+          return true
+        }
+        return false
+      }
+    }, {
       name: 'connectionString',
       message: 'What is the connection string?',
       default (current) {
