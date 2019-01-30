@@ -1,8 +1,5 @@
 // <%= adapter %>.<%- js %> - <%= adapter %> adapter
 <%- tplTsOnly([`import { App } from './app.interface'${sc}`, '']) %>
-<% dependencies.forEach(dependency => { %>
-<%- tplImports(dependency, dependency) %>
-<% }) %>
 <%- tplImports('logger', './logger') %>
 <%- insertFragment('imports') %>
 <%- insertFragment('init') %>
