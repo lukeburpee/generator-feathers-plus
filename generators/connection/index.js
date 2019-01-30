@@ -148,10 +148,10 @@ module.exports = class ConnectionGenerator extends Generator {
       }
     }, {
       type: 'input',
-      name: 'customDependencies',
+      name: 'customDeps',
       message: 'What are the custom connection adapter dependencies?',
       default (current) {
-        const { adapter } = current
+        const { adapter } = combineProps(current);
         return adapter
       },
       when (current) {
