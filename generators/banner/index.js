@@ -17,7 +17,7 @@ module.exports = class BannerGenerator extends Generator {
     await Generator.asyncInit(this);
     const { props, _specs: specs } = this;
     const generator = this;
-    this._initialGeneration = !this._specs.banner;
+    this._initialGeneration = !specs.banner;
     initSpecs('banner');
 
     if (this._initialGeneration) {
