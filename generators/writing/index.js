@@ -12,7 +12,7 @@ const traverse = require('traverse');
 const { camelCase, kebabCase: kebabCase1, snakeCase, upperFirst } = require('lodash');
 const { existsSync } = require('fs');
 const { inspect } = require('util');
-const { join } = require('path');
+const { join, parse } = require('path');
 
 const kebabCase = kebabCase1; //name => name === 'users1' ? name : kebabCase1(name);
 
