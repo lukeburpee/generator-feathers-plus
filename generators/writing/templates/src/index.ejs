@@ -10,8 +10,19 @@
 <%- tplImports('seedData', './seed-data') %>
 <% } -%>
 <%# --- if-1 ends above. -%>
+<%# --- if-2 starts below. -%>
+<% if (specs.banner) { -%>
+<%- tplImports('banner', './banner') %>
+<% } -%>
+<%# --- if-2 ends above. -%>
 <%- insertFragment('imports') %>
 <%- insertFragment('init') %>
+
+<%# --- if-3 starts below. -%>
+<% if (specs.banner) { -%>
+banner()
+<% } -%>
+<%# --- if-3 ends above. -%>
 
 const port = app.get('port')<%- sc %>
 const server = app.listen(port)<%- sc %>
@@ -30,11 +41,11 @@ server.on('listening', async () => {
   ]) %>
   <%- insertFragment('listening') %>
 <%# -%>
-<%# --- if-2 starts below. -%>
+<%# --- if-4 starts below. -%>
 <% if (specs.app.seedData) { -%>
   await seedData(app);
 <% } -%>
-<%# --- if-2 ends above. -%>
+<%# --- if-4 ends above. -%>
   <%- insertFragment('listening1') %>
 })<%- sc %>
 

@@ -286,6 +286,9 @@ module.exports = function generatorWriting (generator, what) {
         service(generator, name);
       });
       break;
+    case 'banner':
+      banner(generator);
+      break;
     case 'connection':
       connection(generator);
       break;
@@ -895,6 +898,26 @@ module.exports = function generatorWriting (generator, what) {
         make: hooks => `${hooks.length ? ' ' : ''}${hooks.join(', ')}${hooks.length ? ' ' : ''}`
       };
     }
+  }
+
+  // ===== banner ==============================================================================
+  function banner (generator) {
+    if (!specs.banner) return;
+    debug('banner()');
+
+    todos = [
+      tmpl([tpl, 'src', 'banner.ejs'],     [src, `banner.${js}`]),
+    ];
+
+    // Generate modules
+    generatorFs(generator, context, todos);
+
+    // Update dependencies
+    generator.dependencies = generator.dependencies || []; // needed
+    generator.dependencies = generator.dependencies.concat('figlet');
+    generator._packagerInstall(generator.dependencies, { save: true });
+
+    generatorFs(generator, context, todos);
   }
 
   // ===== connection ==============================================================================
