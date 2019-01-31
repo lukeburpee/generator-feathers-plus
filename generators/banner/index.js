@@ -36,23 +36,23 @@ module.exports = class BannerGenerator extends Generator {
       name: 'title',
       message: 'Banner Title?',
       type: 'input',
-      default: () => specs.app.name,
+      default: () => specs.banner.title || specs.app.name,
     }, {
       name: 'titleColor',
       message: 'Title Color?',
       type: 'list',
-      default: () => 'blue',
+      default: () => specs.banner.titleColor || 'blue',
       choices: () => colors
     }, {
       name: 'subheader',
       message: 'Include Subheader?',
       type: 'confirm',
-      default: true
+      default: specs.banner.subheader || true
     }, {
       name: 'subheaderText',
       message: 'Subheader Text?',
       type: 'input',
-      default: () => 'powered by feathers-plus',
+      default: () => specs.banner.subheaderText || 'powered by feathers-plus',
       when: (current) => {
         const { subheader } = combineProps(current);
         if (!subheader) {
@@ -64,7 +64,7 @@ module.exports = class BannerGenerator extends Generator {
       name: 'subheaderColor',
       message: 'Subheader Color?',
       type: 'list',
-      default: () => 'yellow',
+      default: () => specs.banner.subheaderColor || 'yellow',
       when: (current) => {
         const { subheader } = combineProps(current);
         if (!subheader) {
