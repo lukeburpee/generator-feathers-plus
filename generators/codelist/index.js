@@ -1,5 +1,6 @@
 
 const chalk = require('chalk');
+const makeDebug = require('debug');
 const { cwd } = require('process');
 const { parse } = require('path');
 
