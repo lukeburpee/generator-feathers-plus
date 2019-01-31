@@ -21,12 +21,12 @@ module.exports = class CodelistGenerator extends Generator {
     }, {
       type: 'list',
       name: 'fileFormat',
-      message: 'Which file output format would you prefer?',
-      default: () => 'js-file',
+      message: `Which file output format would you prefer?`,
+      default: 'js',
       choices: () => [
-        { name: 'JS File', value: 'js-file' },
-        { name: 'Json File', value: 'json-file' },
-        { name: 'Text File', value: 'text-file' }
+        { name: 'JS   (feathers-gen-code.js)', value: 'js' },
+        { name: 'Json (feathers-gen-code.json)', value: 'json' },
+        { name: 'Text (feathers-gen-code.txt)', value: 'txt' }
       ],
       when: (current) => {
         const { file } = current;
@@ -35,32 +35,40 @@ module.exports = class CodelistGenerator extends Generator {
         }
         return true
       }
-    }]
+    }, {
+      type: 'confirm',
+      name: 'jsConfirmed',
+      message: () => {
+        console.log(chalk.red(
+          `** Warning ** Running an app containing a feathers-gen-code.js file may result in unintended changes to your code.`
+        ))
+        return 'Proceed?'
+      },
+      default: true,
+      when: (current) => (current.fileFormat === 'js') ? true : false
+    }];
+    
+    return this.prompt(prompts).then(answers => {
+      Object.assign(this.props, answers);
+
+      // Set missing defaults when call during test
+      if (this._opts.calledByTest && this._opts.calledByTest.prompts) {
+        this.props = Object.assign({}, this._opts.calledByTest.prompts, this. props);
+      }
+
+      debug('codelist prompting() ends', this.props);
+
+      if (!generator.callWritingFromPrompting()) return;
+
+      debug('codelist writing patch starts. call generatorWriting');
+      generatorWriting(generator, 'codelist');
+      debug('codelist writing patch ends');
+    });
   }
 
   writing () {
-    const code = getFragments();
-    const dirLen = process.cwd().length + 1;
+    if (this.callWritingFromPrompting()) return;
 
-    this.log();
-    this.log([
-      chalk.green.bold('The custom code found in generated modules in dir '),
-      chalk.yellow.bold(parse(cwd()).base),
-      ':',
-    ].join(''));
-
-    Object.keys(code).forEach(filePath => {
-      const codeFilePath = code[filePath];
-
-      this.log();
-      this.log(chalk.yellow.bold(`// !module ${filePath.substr(dirLen)}`));
-      this.log();
-
-      Object.keys(codeFilePath).forEach(codeLocation => {
-        this.log(chalk.green.bold(`// !code: ${codeLocation}`));
-        this.log(codeFilePath[codeLocation].join('\n'));
-        this.log(chalk.green.bold('// !end'));
-      });
-    });
+    generatorWriting(this, 'codelist');
   }
 };
