@@ -12,7 +12,9 @@
   ))
 <%# --- if-1 starts below. -%>
 <% if (specs.banner.subheader) { -%>
-  console.log(chalk.bold[`<%- specs.banner.subheaderColor %>`](`<%- specs.banner.subheaderText %>`))
+  console.log(chalk.bold[`<%- specs.banner.subheaderColor %>`](
+    `  <%- specs.banner.subheaderText %>`
+  ))
 <% } -%>
 <%# --- if-1 ends above. -%>
   console.log('')
