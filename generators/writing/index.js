@@ -27,6 +27,7 @@ const stringifyPlus = require('../../lib/stringify-plus');
 const validationErrorsLog = require('../../lib/validation-errors-log');
 const validateJsonSchema = require('../../lib/validate-json-schema');
 
+const { flattenJsonCodelist, getJsonCodelist } = require('../../lib/codelist');
 const { generatorFs } = require('../../lib/generator-fs');
 const { updateSpecs } = require('../../lib/specs');
 
@@ -304,6 +305,8 @@ module.exports = function generatorWriting (generator, what) {
     case 'test':
       test(generator);
       break;
+    case 'codelist':
+      codelist(generator);
     default:
       throw new Error(`Unexpected generate ${what}. (writing`);
   }
@@ -895,6 +898,46 @@ module.exports = function generatorWriting (generator, what) {
         make: hooks => `${hooks.length ? ' ' : ''}${hooks.join(', ')}${hooks.length ? ' ' : ''}`
       };
     }
+  }
+
+  // ===== codelist ==============================================================================
+  async function codelist (generator) {
+    debug('codelist()');
+
+    generator.log([
+      chalk.green.bold('The custom code found in generated modules in dir '),
+      chalk.yellow.bold(parse(cwd()).base),
+      ':',
+    ].join(''));
+
+    const code = getJsonCodelist();
+    const { file, fileFormat, jsConfirmed } = specs.codelist;
+
+    if (!file) {
+      flattenJsonCodelist(code);
+      break;
+    }
+
+    if (!jsConfirm) {
+      generator.log(`Codelist file generation cancelled. Terminating.`);
+      break;
+    }
+
+    if (fileFormat === 'json') {
+      todos = [
+        json(code, 'feathers-gen-code.json', null, true)
+      ];
+    } else {
+      const codelist = flattenJsonCodelist(code, false);
+      const extension = (fileFormat === 'js') ? js : fileFormat;
+
+      todos = [
+        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, { codelist })
+      ];
+    }
+
+    // Generate modules
+    generatorFs(generator, context, todos);
   }
 
   // ===== connection ==============================================================================
