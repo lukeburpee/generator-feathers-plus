@@ -914,8 +914,7 @@ module.exports = function generatorWriting (generator, what) {
     const { file, fileFormat, jsConfirmed } = props;
 
     if (!file) {
-      flattenJsonCodelist(code);
-      break;
+      return generator.log(flattenJsonCodelist(code));
     }
 
     if (fileFormat === 'json') {
