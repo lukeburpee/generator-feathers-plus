@@ -4,7 +4,10 @@ const { cwd } = require('process');
 const { parse } = require('path');
 
 const Generator = require('../../lib/generator');
+const generatorWriting = require('../writing');
 const { getFragments } = require('../../lib/code-fragments');
+
+const debug = makeDebug('generator-feathers-plus:prompts:codelist');
 
 module.exports = class CodelistGenerator extends Generator {
   async prompting () {
@@ -14,13 +17,13 @@ module.exports = class CodelistGenerator extends Generator {
     const combineProps = answers => Object.assign({}, props, answers);
 
     const prompts = [{
-      type: 'confirm',
       name: 'file',
+      type: 'confirm',
       message: 'Output codelist to file?',
       default: false
     }, {
-      type: 'list',
       name: 'fileFormat',
+      type: 'list',
       message: `Which file output format would you prefer?`,
       default: 'js',
       choices: () => [
@@ -29,15 +32,15 @@ module.exports = class CodelistGenerator extends Generator {
         { name: 'Text (feathers-gen-code.txt)', value: 'txt' }
       ],
       when: (current) => {
-        const { file } = current;
+        const { file } = combineProps(current);
         if (!file) {
           return false
         }
         return true
       }
     }, {
-      type: 'confirm',
       name: 'jsConfirmed',
+      type: 'confirm',
       message: () => {
         console.log(chalk.red(
           `** Warning ** Running an app containing a feathers-gen-code.js file may result in unintended changes to your code.`
@@ -45,10 +48,11 @@ module.exports = class CodelistGenerator extends Generator {
         return 'Proceed?'
       },
       default: true,
-      when: (current) => (current.fileFormat === 'js') ? true : false
+      when: (current) => combineProps(current).fileFormat === 'js'
     }];
     
     return this.prompt(prompts).then(answers => {
+      if (answers.file && !answers.jsConfirmed) process.exit(0);
       Object.assign(this.props, answers);
 
       // Set missing defaults when call during test
