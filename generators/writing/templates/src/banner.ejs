@@ -4,16 +4,16 @@
 <%- insertFragment('imports') %>
 <%- insertFragment('init') %>
 
-<%- tplExport('function () {', 'function (): void {') %>
-  console.log(chalk[`${specs.banner.titleColor}`](
-  	figlet.textSync(`${specs.banner.title}`, {
+<%- tplExport('function (config) {', 'function (config: any): void {') %>
+  console.log(chalk[specs.banner.titleColor](
+  	figlet.textSync(specs.banner.title, {
   		horizontalLayout: 'full'
   	})
   ))
 <%# --- if-1 starts below. -%>
 <% if (specs.banner.subheader) { -%>
-  console.log(chalk[`${specs.banner.subheaderColor}`](
-    figlet.textSync(figlet.textSync(`${specs.banner.subheaderText}`, {
+  console.log(chalk[specs.banner.subheaderColor](
+    figlet.textSync(figlet.textSync(specs.banner.subheaderText, {
       horizontalLayout: 'default' 
     }))
   ))
