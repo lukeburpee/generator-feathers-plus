@@ -307,6 +307,7 @@ module.exports = function generatorWriting (generator, what) {
       break;
     case 'codelist':
       codelist(generator);
+      break;
     default:
       throw new Error(`Unexpected generate ${what}. (writing`);
   }
