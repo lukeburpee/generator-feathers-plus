@@ -989,7 +989,7 @@ module.exports = moduleExports;
 
 ## generate secret
 
-*generate authentication* added a secret to package.json:
+*generate authentication* added a secret to config/default.json:
 ```js
 {
   "host": "localhost",
@@ -1120,7 +1120,7 @@ feathers-plus generate service
 ```
 
 <collapse-image title="Prompts 'generate service' for Roles with Model" url="/assets/get-started/generate-service-roles-model.png" />
-<collapse-image title="Prompts 'generate service' for Roles with Model" url="/assets/get-started/generate-service-teams-model.png" />
+<collapse-image title="Prompts 'generate service' for Teams with Model" url="/assets/get-started/generate-service-teams-model.png" />
 
 The Mongoose models now reflects the Feathers model:
 ```js

@@ -11,6 +11,7 @@ const Auth0Strategy = require('passport-auth0');
 
 let moduleExports = function (app) {
   const config = app.get('authentication');
+  // !code: func_init // !end
 
   // Set up authentication with the secret
   app.configure(authentication(config));
@@ -20,7 +21,8 @@ let moduleExports = function (app) {
 
   app.configure(oauth2(Object.assign({
     name: 'auth0',
-    Strategy: Auth0Strategy
+    Strategy: Auth0Strategy,
+    // !code: auth0_options // !end
   }, config.auth0)));
 
   // !code: loc_2 // !end
