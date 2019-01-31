@@ -908,7 +908,7 @@ module.exports = function generatorWriting (generator, what) {
 
     generator.log([
       chalk.green.bold('The custom code found in generated modules in dir '),
-      chalk.yellow.bold(parse(cwd()).base),
+      chalk.yellow.bold(parse(process.cwd()).base),
       ':',
     ].join(''));
 
