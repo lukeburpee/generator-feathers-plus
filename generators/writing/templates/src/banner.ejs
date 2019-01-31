@@ -12,11 +12,7 @@
   ))
 <%# --- if-1 starts below. -%>
 <% if (specs.banner.subheader) { -%>
-  console.log(chalk[`<%- specs.banner.subheaderColor %>`](
-    figlet.textSync(`<%- specs.banner.subheaderText %>`, {
-      horizontalLayout: 'fitted' 
-    })
-  ))
+  console.log(chalk.bold[`<%- specs.banner.subheaderColor %>`](`<%- specs.banner.subheaderText %>`))
 <% } -%>
 <%# --- if-1 ends above. -%>
   console.log('')
