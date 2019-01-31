@@ -47,7 +47,7 @@ module.exports = class BannerGenerator extends Generator {
       name: 'subheader',
       message: 'Include Subheader?',
       type: 'confirm',
-      default: specs.banner.subheader || true
+      default: specs.banner.subheader ? specs.banner.subheader : true
     }, {
       name: 'subheaderText',
       message: 'Subheader Text?',
