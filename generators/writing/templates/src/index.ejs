@@ -2,6 +2,9 @@
 /* <%- lintDisable %> no-console */
 // Start the server. (Can be re-generated.)
 <%- insertFragment('preface') %>
+<% if (specs.options.commandline) { -%>
+<%- tplImports('commander', null, 'req') %>
+<% } -%>
 <%- tplImports('logger', './logger') %>
 <%- tplImports('app', './app') %>
 <%# -%>
@@ -12,7 +15,18 @@
 <%# --- if-1 ends above. -%>
 <%- insertFragment('imports') %>
 <%- insertFragment('init') %>
-
+<% if (specs.options.commandline) { -%>
+  commander
+    .option('-h, --host', 'Set application host')
+    .option('-p, --port', 'Set application port')
+    .parse(process.argv)<%- sc %>
+  if (commander.host) {
+    app.set('host', commander.host)
+  }
+  if (commander.port) {
+    app.set('port', commander.port)
+  }
+<% } -%>
 const port = app.get('port')<%- sc %>
 const server = app.listen(port)<%- sc %>
 <%- insertFragment('init2') %>

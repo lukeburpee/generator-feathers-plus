@@ -511,6 +511,12 @@ module.exports = function generatorWriting (generator, what) {
       'cross-env',
     ];
 
+    if (specs.options.commandline) {
+      generator.dependencies.concat([
+        'commander',
+      ]);
+    }
+
     generator.devDependencies = [
       'mocha',
       'nodemon',

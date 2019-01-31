@@ -60,6 +60,13 @@ module.exports = class OptionsGenerator extends Generator {
         return !!specs.options.semicolons;
       },
     }, {
+      name: 'commandline',
+      message: 'Allow commandline overrides of application configuration?',
+      type: 'confirm',
+      default () {
+        return !!spec.options.commandline
+      }
+    }, {
       name: 'inspectConflicts',
       message: 'View module changes and control replacement (not recommended)?',
       type: 'confirm',
