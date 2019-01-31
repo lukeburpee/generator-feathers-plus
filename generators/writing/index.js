@@ -927,7 +927,7 @@ module.exports = function generatorWriting (generator, what) {
       const extension = (fileFormat === 'js') ? js : fileFormat;
 
       todos = [
-        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, { codelist })
+        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, { codelist, extension })
       ];
     }
 
