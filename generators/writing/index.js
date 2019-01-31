@@ -907,6 +907,7 @@ module.exports = function generatorWriting (generator, what) {
 
     todos = [
       tmpl([tpl, 'src', 'banner.ejs'],     [src, `banner.${js}`]),
+      tmpl([tpl, 'src', 'index.ejs'], [src, `index.${js}`])
     ];
 
     // Generate modules
