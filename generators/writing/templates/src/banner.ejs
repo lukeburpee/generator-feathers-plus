@@ -5,7 +5,7 @@
 <%- insertFragment('init') %>
 
 <%- tplExport('function () {', 'function (): void {') %>
-  console.log(chalk[`<%- specs.banner.titleColor %>`](
+  console.log(chalk.bold[`<%- specs.banner.titleColor %>`](
   	figlet.textSync(`<%- specs.banner.title %>`, {
   		horizontalLayout: 'full'
   	})
