@@ -1,5 +1,6 @@
 
 /* eslint-disable no-console */
+const chalk = require('chalk');
 const crypto = require('crypto');
 const jsonSchemaSeeder = require('json-schema-seeder');
 const makeDebug = require('debug');
