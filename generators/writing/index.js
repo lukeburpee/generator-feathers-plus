@@ -910,16 +910,11 @@ module.exports = function generatorWriting (generator, what) {
       ':',
     ].join(''));
 
-    const code = getJsonCodelist();
-    const { file, fileFormat, jsConfirmed } = specs.codelist;
+    const code = await getJsonCodelist(generator.destinationRoot());
+    const { file, fileFormat, jsConfirmed } = props;
 
     if (!file) {
       flattenJsonCodelist(code);
-      break;
-    }
-
-    if (!jsConfirm) {
-      generator.log(`Codelist file generation cancelled. Terminating.`);
       break;
     }
 
