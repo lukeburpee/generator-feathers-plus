@@ -15,6 +15,7 @@ module.exports = class CodelistGenerator extends Generator {
     this.checkDirContainsApp();
     await Generator.asyncInit(this);
     const { props } = this;
+    const generator = this;
     const combineProps = answers => Object.assign({}, props, answers);
 
     const prompts = [{
