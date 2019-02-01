@@ -54,9 +54,6 @@ const tests = [
   // Test when .eslintrc.json file already exists
     { testName: 'app-eslintrc.test' },
 
-  // Test using feathers-gen-code.js for code
-    { testName: 'app-code-blocks.test' },
-
   // t02, z02 (z01 ->) Test service creation without authentication scaffolding.
   // Also test any missing specs.options props are created.
   //* generate app            # z-1, Project z-1, npm, src1, socketio (only)
@@ -213,6 +210,35 @@ const tests = [
       compareDirs: true,
       execute: false,
     },
+
+  // Test generating feathers-gen-code file
+    { testName: 'a-codelist/js/gen-codelist.test',
+      specsChanges: [
+        { generate: 'codelist', prompts: { file: true, extension: 'js', jsConfirm: true } },
+        { generate: 'codelist', prompts: { file: true, extension: 'json' } },
+        { generate: 'codelist', prompts: { file: true, extension: 'txt' } }
+      ],
+      compareDirs: true,
+      execute: false
+    },
+
+  // Test using generated feathers-gen-code file for code
+    { testName: 'a-codelist/js/test-codelist.test' },
+
+
+  // .ts version of test generating feathers-gen-code file 
+    { testName: 'a-codelist/ts/gen-codelist.test',
+      specsChanges: [
+        { generate: 'codelist', prompts: { file: true, extension: 'ts', jsConfirm: true } },
+        { generate: 'codelist', prompts: { file: true, extension: 'json' } },
+        { generate: 'codelist', prompts: { file: true, extension: 'txt' } }
+      ],
+      compareDirs: true,
+      execute: false
+    },
+
+  // .ts version of test using generated feathers-gen-code file for code
+    { testName: 'a-codelist/ts/test-codelist.test' },
 
   // t21, z21 Test switching the user-entity
   // t21
