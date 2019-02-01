@@ -58,7 +58,7 @@ module.exports = class CodelistGenerator extends Generator {
       Object.assign(this.props, answers);
       const { file, extension, jsConfirmed } = this.props;
 
-      if (file && !jsConfirmed) process.exit(0);
+      if (file && extension === 'js' && !jsConfirmed) process.exit(0);
 
       const code = getFragments();
       const dirLen = process.cwd().length + 1;
