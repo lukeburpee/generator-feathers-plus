@@ -15,8 +15,11 @@ module.exports = class CodelistGenerator extends Generator {
   async prompting () {
     this.checkDirContainsApp();
     await Generator.asyncInit(this);
-    const { props } = this;
+    const { props, _specs: specs } = this;
     const generator = this;
+
+    const js = specs.options.ts ? 'ts' : 'js';
+
     const combineProps = answers => Object.assign({}, props, answers);
 
     const prompts = [{
@@ -28,9 +31,9 @@ module.exports = class CodelistGenerator extends Generator {
       name: 'extension',
       type: 'list',
       message: `Which file output format would you prefer?`,
-      default: 'js',
+      default: js,
       choices: () => [
-        { name: 'JS   (feathers-gen-code.js)', value: 'js' },
+        { name: `${js.toUpperCase()}   (feathers-gen-code.js)`, value: js },
         { name: 'Json (feathers-gen-code.json)', value: 'json' },
         { name: 'Text (feathers-gen-code.txt)', value: 'txt' }
       ],
@@ -51,14 +54,14 @@ module.exports = class CodelistGenerator extends Generator {
         return 'Proceed?'
       },
       default: true,
-      when: (current) => combineProps(current).extension === 'js'
+      when: (current) => combineProps(current).extension === js
     }];
     
     return this.prompt(prompts).then(answers => {
       Object.assign(this.props, answers);
       const { file, extension, jsConfirmed } = this.props;
 
-      if (file && extension === 'js' && !jsConfirmed) process.exit(0);
+      if (file && extension === js && !jsConfirmed) process.exit(0);
 
       const code = getFragments();
       const dirLen = process.cwd().length + 1;
