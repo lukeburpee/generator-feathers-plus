@@ -50,7 +50,7 @@ module.exports = class CodelistGenerator extends Generator {
       message: () => {
         generator.log(chalk.red(
           `** Warning ** Running an app containing a feathers-gen-code.js file may result in unintended changes to your code.`
-        ))
+        ));
         return 'Proceed?'
       },
       default: true,
