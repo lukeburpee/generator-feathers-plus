@@ -1,5 +1,6 @@
 
 /* eslint-disable no-console */
+const chalk = require('chalk');
 const crypto = require('crypto');
 const jsonSchemaSeeder = require('json-schema-seeder');
 const makeDebug = require('debug');
@@ -11,7 +12,7 @@ const traverse = require('traverse');
 const { camelCase, kebabCase: kebabCase1, snakeCase, upperFirst } = require('lodash');
 const { existsSync } = require('fs');
 const { inspect } = require('util');
-const { join } = require('path');
+const { join, parse } = require('path');
 
 const kebabCase = kebabCase1; //name => name === 'users1' ? name : kebabCase1(name);
 
@@ -27,6 +28,7 @@ const stringifyPlus = require('../../lib/stringify-plus');
 const validationErrorsLog = require('../../lib/validation-errors-log');
 const validateJsonSchema = require('../../lib/validate-json-schema');
 
+const { flattenJsonCodelist } = require('../../lib/codelist');
 const { generatorFs } = require('../../lib/generator-fs');
 const { getFragment } = require('../../lib/code-fragments');
 const { updateSpecs } = require('../../lib/specs');
@@ -311,6 +313,9 @@ module.exports = function generatorWriting (generator, what) {
       break;
     case 'test':
       test(generator);
+      break;
+    case 'codelist':
+      codelist(generator);
       break;
     default:
       throw new Error(`Unexpected generate ${what}. (writing`);
@@ -903,6 +908,26 @@ module.exports = function generatorWriting (generator, what) {
         make: hooks => `${hooks.length ? ' ' : ''}${hooks.join(', ')}${hooks.length ? ' ' : ''}`
       };
     }
+  }
+
+  // ===== codelist ==============================================================================
+  async function codelist (generator) {
+    debug('codelist()');
+
+    const { codelist, extension } = props;
+
+    if (extension === 'json') {
+      todos = [
+        json(codelist, 'feathers-gen-code.json')
+      ];
+    } else {
+      todos = [
+        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, true, null, { codelist, extension })
+      ];
+    }
+
+    // Generate modules
+    generatorFs(generator, context, todos);
   }
 
   // ===== connection ==============================================================================
