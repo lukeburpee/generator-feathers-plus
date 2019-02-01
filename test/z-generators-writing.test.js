@@ -222,8 +222,23 @@ const tests = [
       execute: false
     },
 
-  // Test using generated feathers-gen-code.js file for code
+  // Test using generated feathers-gen-code file for code
     { testName: 'a-codelist/js/test-codelist.test' },
+
+
+  // .ts version of test generating feathers-gen-code file 
+    { testName: 'a-codelist/ts/gen-codelist.test',
+      specsChanges: [
+        { generate: 'codelist', prompts: { file: true, extension: 'ts', jsConfirm: true } },
+        { generate: 'codelist', prompts: { file: true, extension: 'json' } },
+        { generate: 'codelist', prompts: { file: true, extension: 'txt' } }
+      ],
+      compareDirs: true,
+      execute: false
+    },
+
+  // .ts version of test using generated feathers-gen-code file for code
+    { testName: 'a-codelist/ts/test-codelist.test' },
 
   // t21, z21 Test switching the user-entity
   // t21
