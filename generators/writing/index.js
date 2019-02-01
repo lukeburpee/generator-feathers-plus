@@ -914,7 +914,7 @@ module.exports = function generatorWriting (generator, what) {
       ];
     } else {
       todos = [
-        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, { codelist, extension })
+        tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, true, null, { codelist, extension })
       ];
     }
 
