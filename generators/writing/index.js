@@ -907,7 +907,7 @@ module.exports = function generatorWriting (generator, what) {
     debug('codelist()');
 
     const { codelist, extension } = props;
-
+    generator.log(`generating ${extension} codelist file: ${JSON.stringify(codelist)}`);
     if (extension === 'json') {
       todos = [
         json(codelist, 'feathers-gen-code.json')
