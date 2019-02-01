@@ -33,7 +33,7 @@ module.exports = class CodelistGenerator extends Generator {
       message: `Which file output format would you prefer?`,
       default: js,
       choices: () => [
-        { name: `${js.toUpperCase()}   (feathers-gen-code.js)`, value: js },
+        { name: `${js.toUpperCase()}   (feathers-gen-code.${js})`, value: js },
         { name: 'Json (feathers-gen-code.json)', value: 'json' },
         { name: 'Text (feathers-gen-code.txt)', value: 'txt' }
       ],
