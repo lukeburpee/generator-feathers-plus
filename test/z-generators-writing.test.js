@@ -223,7 +223,7 @@ const tests = [
     },
 
   // Test using generated feathers-gen-code.js file for code
-    { testName: 'a-codelist/js/test-gen-codelist.test' },
+    { testName: 'a-codelist/js/test-codelist.test' },
 
   // t21, z21 Test switching the user-entity
   // t21
