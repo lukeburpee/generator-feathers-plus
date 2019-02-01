@@ -48,7 +48,7 @@ module.exports = class CodelistGenerator extends Generator {
       name: 'jsConfirmed',
       type: 'confirm',
       message: () => {
-        console.log(chalk.red(
+        generator.log(chalk.red(
           `** Warning ** Running an app containing a feathers-gen-code.js file may result in unintended changes to your code.`
         ))
         return 'Proceed?'
