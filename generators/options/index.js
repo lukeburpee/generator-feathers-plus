@@ -7,6 +7,7 @@ const { parse } = require('path');
 const Generator = require('../../lib/generator');
 const generatorWriting = require('../writing');
 const { initSpecs } = require('../../lib/specs');
+const { uiFrameworks, uiTypes } = require('../../lib/ui');
 
 const debug = makeDebug('generator-feathers-plus:prompts:options');
 
@@ -59,6 +60,43 @@ module.exports = class OptionsGenerator extends Generator {
       default () {
         return !!specs.options.semicolons;
       },
+    }, {
+      name: 'ui',
+      message: 'Include user interface?',
+      type: 'confirm',
+      default () {
+        return !!specs.options.ui;
+      }
+    }, {
+      name: 'uiType',
+      message: 'What type of user interface?',
+      type: 'list',
+      choices () {
+        return uiTypes;
+      },
+      default () {
+        return 'basic'
+      },
+      when (current) {
+        return current.ui;
+      }
+    }, {
+      name: 'uiFramework',
+      message (current) {
+        const { uiType } = current;
+        return `Which ${uiType} framework?`
+      },
+      type: 'list',
+      choices (current) {
+        const { uiType } = current;
+        return uiFrameworks(uiType);
+      },
+      default () {
+        return 'none';
+      },
+      when (current) {
+        return current.ui && current.uiType !== ('angular' || 'basic');
+      }
     }, {
       name: 'inspectConflicts',
       message: 'View module changes and control replacement (not recommended)?',
