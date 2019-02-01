@@ -906,27 +906,13 @@ module.exports = function generatorWriting (generator, what) {
   async function codelist (generator) {
     debug('codelist()');
 
-    generator.log([
-      chalk.green.bold('The custom code found in generated modules in dir '),
-      chalk.yellow.bold(parse(process.cwd()).base),
-      ':',
-    ].join(''));
+    const { codelist, extension } = props;
 
-    const code = await getJsonCodelist(generator.destinationRoot());
-    const { file, fileFormat, jsConfirmed } = props;
-
-    if (!file) {
-      return generator.log(flattenJsonCodelist(code));
-    }
-
-    if (fileFormat === 'json') {
+    if (extension === 'json') {
       todos = [
-        json(code, 'feathers-gen-code.json', null, true)
+        json(codelist, 'feathers-gen-code.json', null, true)
       ];
     } else {
-      const codelist = flattenJsonCodelist(code, false);
-      const extension = (fileFormat === 'js') ? js : fileFormat;
-
       todos = [
         tmpl([tpl, 'feathers-gen-code.ejs'], `feathers-gen-code.${extension}`, { codelist, extension })
       ];

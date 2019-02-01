@@ -7,6 +7,7 @@ const { parse } = require('path');
 const Generator = require('../../lib/generator');
 const generatorWriting = require('../writing');
 const { getFragments } = require('../../lib/code-fragments');
+const { formatJsonCode, flattenJsonCodelist } = require('../../lib/codelist');
 
 const debug = makeDebug('generator-feathers-plus:prompts:codelist');
 
@@ -24,7 +25,7 @@ module.exports = class CodelistGenerator extends Generator {
       message: 'Output codelist to file?',
       default: false
     }, {
-      name: 'fileFormat',
+      name: 'extension',
       type: 'list',
       message: `Which file output format would you prefer?`,
       default: 'js',
@@ -50,13 +51,21 @@ module.exports = class CodelistGenerator extends Generator {
         return 'Proceed?'
       },
       default: true,
-      when: (current) => combineProps(current).fileFormat === 'js'
+      when: (current) => combineProps(current).extension === 'js'
     }];
     
     return this.prompt(prompts).then(answers => {
-      if (answers.file && !answers.jsConfirmed) process.exit(0);
       Object.assign(this.props, answers);
+      const { file, extension, jsConfirmed } = this.props;
 
+      if (file && !jsConfirmed) process.exit(0);
+
+      const code = getFragments();
+      const dirLen = process.cwd().length + 1;
+
+      const codelist = formatJsonCode(code, dirLen);
+
+      this.props.codelist = codelist;
       // Set missing defaults when call during test
       if (this._opts.calledByTest && this._opts.calledByTest.prompts) {
         this.props = Object.assign({}, this._opts.calledByTest.prompts, this. props);
@@ -75,6 +84,20 @@ module.exports = class CodelistGenerator extends Generator {
   writing () {
     if (this.callWritingFromPrompting()) return;
 
-    generatorWriting(this, 'codelist');
+    const { file, extension, codelist } = this.props;
+
+    this.log();
+    this.log([
+      chalk.green.bold('The custom code found in generated modules in dir '),
+      chalk.yellow.bold(parse(process.cwd()).base),
+      ':',
+    ].join(''));
+
+    if (!file) {
+      flattenJsonCodelist(codelist, this.log);
+    } else {
+      this.props.codelist = (extension === 'json') ? codelist : flattenJsonCodelist(codelist);
+      generatorWriting(this, 'codelist');
+    }
   }
 };
