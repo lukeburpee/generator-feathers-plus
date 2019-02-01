@@ -910,7 +910,7 @@ module.exports = function generatorWriting (generator, what) {
 
     if (extension === 'json') {
       todos = [
-        json(codelist, 'feathers-gen-code.json', null, true)
+        json(codelist, 'feathers-gen-code.json')
       ];
     } else {
       todos = [
