@@ -1406,6 +1406,7 @@ module.exports = function generatorWriting (generator, what) {
     // Create new custom text files
     textPaths.forEach(textPath => {
       const code = getFragmenter(textPath) || '';
+      console.log(code);
       todos.push(
         source(code, textPath, true),
       );
