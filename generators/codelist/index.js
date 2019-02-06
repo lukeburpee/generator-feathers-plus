@@ -13,6 +13,7 @@ module.exports = class CodelistGenerator extends Generator {
   async prompting () {
     await Generator.asyncInit(this);
     const { _specs: specs } = this;
+    const generator = this;
 
     const { ts } = specs.options;
     const jsFormat = ts ? 'ts' : 'js';
