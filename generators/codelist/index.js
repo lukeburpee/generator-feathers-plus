@@ -1,10 +1,13 @@
 
 const chalk = require('chalk');
+const makeDebug = require('debug');
 const { cwd } = require('process');
 const { parse } = require('path');
 
 const Generator = require('../../lib/generator');
 const generatorWriting = require('../writing');
+
+const debug = makeDebug('generator-feathers-plus:prompts:codelist');
 
 module.exports = class CodelistGenerator extends Generator {
   async prompting () {
