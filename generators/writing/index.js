@@ -1428,16 +1428,16 @@ module.exports = function generatorWriting (generator, what) {
     const code = getFragments();
     const dirLen = process.cwd().length + 1;
 
-    const json = formatCodelist(code, dirLen);
+    const jcode = formatCodelist(code, dirLen);
 
     let codelist;
     let todos = [];
 
     if (format !== 'json') {
-      codelist = flattenCodelist(json, logCheck ? generator.log : false);
+      codelist = flattenCodelist(jcode, logCheck ? generator.log : false);
 
     } else {
-      codelist = json;
+      codelist = jcode;
       
     }
     if (format !== 'console') {
