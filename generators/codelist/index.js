@@ -9,13 +9,13 @@ const { insertRequiredCustomResources, getFragments } = require('../../lib/code-
 module.exports = class CodelistGenerator extends Generator {
   async prompting () {
     await Generator.asyncInit(this);
+  }
+
+  async writing () {
     const { _specs: specs } = this;
     const resources = (specs.requiredCustomResources || {}).files || {};
     await insertRequiredCustomResources(resources);
-  }
 
-  writing () {
-    
     const code = getFragments();
     const dirLen = process.cwd().length + 1;
 
