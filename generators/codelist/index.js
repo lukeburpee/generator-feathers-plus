@@ -4,7 +4,7 @@ const { cwd } = require('process');
 const { parse } = require('path');
 
 const Generator = require('../../lib/generator');
-const { getFragments } = require('../../lib/code-fragments');
+const { insertRequiredCustomResources, getFragments } = require('../../lib/code-fragments');
 
 module.exports = class CodelistGenerator extends Generator {
   async prompting () {
@@ -12,6 +12,12 @@ module.exports = class CodelistGenerator extends Generator {
   }
 
   writing () {
+    const { _specs: specs } = this;
+
+    const resources = (specs.requiredCustomResources || {}).files || {};
+
+    await insertRequiredCustomResources(resources);
+    
     const code = getFragments();
     const dirLen = process.cwd().length + 1;
 
