@@ -13,7 +13,8 @@ module.exports = class CodelistGenerator extends Generator {
 
   async writing () {
     const { _specs: specs } = this;
-    const resources = (specs.requiredCustomResources || {}).files || {};
+    console.log(specs);
+    const resources = (specs.requiredCustomResources || {}).files;
     console.log(resources);
     await insertRequiredCustomResources(resources);
 
