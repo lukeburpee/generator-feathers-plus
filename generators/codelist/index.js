@@ -23,6 +23,7 @@ module.exports = class CodelistGenerator extends Generator {
     const dirLen = process.cwd().length + 1;
 
     const customResourceCode = code[resourceHeader];
+    console.log(customResourceCode);
 
     delete code[resourceHeader];
 
