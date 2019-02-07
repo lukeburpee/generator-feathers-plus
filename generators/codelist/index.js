@@ -22,7 +22,7 @@ module.exports = class CodelistGenerator extends Generator {
     let code = getFragments();
     const dirLen = process.cwd().length + 1;
 
-    const resourceCode = code[resourceHeader];
+    const requiredResourceCode = code[resourceHeader];
 
     delete code[resourceHeader];
 
@@ -48,10 +48,10 @@ module.exports = class CodelistGenerator extends Generator {
     this.log();
     this.log(chalk.yellow.bold(`// !module ${RESOURCE_HEADER}`));
     this.log();
-    Object.keys(resourceCode).forEach(resourceLocation => {
-      const resourcePath = resourceCode[resourceLocation];
+    Object.keys(requiredResourceCode).forEach(resourceLocation => {
+      const resourceCode = requiredResourceCode[resourceLocation];
       this.log(chalk.green.bold(`// !code: ${resourceLocation}`));
-      this.log(resourcePath[resourceLocation].join('\n'));
+      this.log(resourceCode.join('\n'));
       this.log(chalk.green.bold('// !end'));
     });
   }
