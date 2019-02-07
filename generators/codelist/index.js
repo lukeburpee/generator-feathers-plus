@@ -15,7 +15,7 @@ module.exports = class CodelistGenerator extends Generator {
 
   async writing () {
     const { _specs: specs } = this;
-    const resourceHeader = join(this.destinationRoot(), RESOURCE_HEADER);
+    const resourceHeader = join(process.cwd(), RESOURCE_HEADER);
     const resources = (specs.requiredCustomResources || {}).files || {};
     await insertRequiredCustomResources(resources);
 
