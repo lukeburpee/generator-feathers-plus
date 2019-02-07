@@ -16,16 +16,13 @@ module.exports = class CodelistGenerator extends Generator {
   async writing () {
     const { _specs: specs } = this;
     const resourceHeader = join(process.cwd(), RESOURCE_HEADER);
-    console.log(resourceHeader);
     const resources = (specs.requiredCustomResources || {}).files || {};
     await insertRequiredCustomResources(resources);
 
     let code = getFragments();
     const dirLen = process.cwd().length + 1;
 
-    console.log(code);
-    const customResourceCode = code[resourceHeader];
-    console.log(customResourceCode);
+    const resourceCode = code[resourceHeader];
 
     delete code[resourceHeader];
 
@@ -47,6 +44,15 @@ module.exports = class CodelistGenerator extends Generator {
         this.log(codeFilePath[codeLocation].join('\n'));
         this.log(chalk.green.bold('// !end'));
       });
+    });
+    this.log();
+    this.log(chalk.yellow.bold(`// !module ${RESOURCE_HEADER}`));
+    this.log();
+    Object.keys(resourceCode).forEach(resourceLocation => {
+      const resourcePath = resourceCode[resourceLocation];
+      this.log(chalk.green.bold(`// !code: ${resourceLocation}`));
+      this.log(resourcePath[resourceLocation].join('\n'));
+      this.log(chalk.green.bold('// !end'));
     });
   }
 };
