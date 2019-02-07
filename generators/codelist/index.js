@@ -22,6 +22,7 @@ module.exports = class CodelistGenerator extends Generator {
     let code = getFragments();
     const dirLen = process.cwd().length + 1;
 
+    console.log(code);
     const customResourceCode = code[resourceHeader];
     console.log(customResourceCode);
 
