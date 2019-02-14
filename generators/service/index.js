@@ -35,7 +35,6 @@ module.exports = class ServiceGenerator extends Generator {
 
       initSpecs('service', { name: props.name });
       serviceSpecs = specs.services[props.name];
-      this.log(JSON.stringify(serviceSpecs));
     }
 
     // z-generator-writing.test.js calls us with _opts: { calledByTest: { name: serviceName } }
@@ -148,7 +147,7 @@ module.exports = class ServiceGenerator extends Generator {
       name: 'adapter',
       message: 'What kind of service is it?',
       default () {
-        return serviceSpecs.adapter || 'nedb';
+        return 'nedb';
       },
       choices: [
         {
