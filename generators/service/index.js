@@ -133,7 +133,8 @@ module.exports = class ServiceGenerator extends Generator {
         return `What would you call one row in the ${chalk.green(answers.name || props.name)} database?`;
       },
       default (answers) {
-        return serviceSpecs.nameSingular || singular(answers.name || props.name);
+        const nameSingular = serviceSpecs.nameSingular ? serviceSpecs.nameSingular : singular(answers.name || props.name);
+        return nameSingular
       },
       validate (input) {
         if (input.trim() === '') {
