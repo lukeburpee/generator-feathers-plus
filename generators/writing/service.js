@@ -146,7 +146,7 @@ function service (generator, name, props, specs, context, state, inject) {
 
   // Custom template context.
   const { typescriptTypes, typescriptExtends } =
-    serviceSpecsToTypescript(specsService, feathersSpecs[name], feathersSpecs[name]._extensions);
+    serviceSpecsToTypescript(specsService, feathersSpecs[name], feathersSpecs[name]._extensions || {});
 
   let graphqlTypeName;
   if (specs.graphql && specsService.graphql && name !== 'graphql') {
