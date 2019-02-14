@@ -206,7 +206,7 @@ module.exports = class ServiceGenerator extends Generator {
         const pathName = generator.makeFilePath(rawPath);
 
         return defaultSubFolder !== answers.subFolder ?
-          `/${pathName}` : (serviceSpecs.path || `/${pathName}`);
+          `/${pathName}` : (servicePath && serviceSpecs.path ? serviceSpecs.path : `/${pathName}`);
       },
       filter (input) {
         return generator.makeFilePath(input);
