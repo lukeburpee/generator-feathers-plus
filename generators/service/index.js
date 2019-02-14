@@ -182,7 +182,7 @@ module.exports = class ServiceGenerator extends Generator {
       name: 'subFolder',
       message: 'Place service code in which nested folder, e.g. `v1/blog`? (optional)',
       default (answers) {
-        defaultSubFolder = serviceSpecs.subFolder || answers.subFolder || props.subFolder;
+        defaultSubFolder = serviceSpecs && serviceSpecs.subFolder ? serviceSpecs.subFolder : answers.subFolder ? answers.subFolder : props.subFolder;
         return defaultSubFolder;
       },
       filter (input) {
