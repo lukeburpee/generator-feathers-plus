@@ -133,7 +133,7 @@ module.exports = class ServiceGenerator extends Generator {
         return `What would you call one row in the ${chalk.green(answers.name || props.name)} database?`;
       },
       default (answers) {
-        const nameSingular = serviceSpecs.nameSingular ? serviceSpecs.nameSingular : singular(answers.name || props.name);
+        const nameSingular = serviceSpecs && serviceSpecs.nameSingular ? serviceSpecs.nameSingular : singular(answers.name || props.name);
         return nameSingular
       },
       validate (input) {
