@@ -98,7 +98,7 @@ function service (generator, name, props, specs, context, state, inject) {
 
   const { connection } = inject;
 
-  const specsService = specs.services[name];
+  const specsService = specs.services[name] || {};
   const fileName = specsService.fileName;
   const camelName = camelCase(name);
   const snakeName = snakeCase(name);
