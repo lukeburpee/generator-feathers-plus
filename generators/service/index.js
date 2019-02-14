@@ -18,7 +18,7 @@ module.exports = class ServiceGenerator extends Generator {
     await Generator.asyncInit(this);
     const { props, _specs: specs } = this;
     const generator = this;
-    let serviceSpecs; // The specs.service[] for the service
+    let serviceSpecs = {}; // The specs.service[] for the service
     let defaultSubFolder;
 
     // Define defaults for prompts which may not be displayed
