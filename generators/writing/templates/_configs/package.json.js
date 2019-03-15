@@ -11,7 +11,7 @@ module.exports = function(generator) {
     description: specs.app.description,
     version: '0.0.0',
     homepage: '',
-    main: specs.options.ts ? `compiled/index.ts` : `${specs.app.src}/index.js`,
+    main: specs.options.ts ? `compiled/index.js` : `${specs.app.src}/index.js`,
     keywords: [
       'feathers'
     ],
