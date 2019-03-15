@@ -11,7 +11,7 @@ module.exports = function(generator) {
     description: specs.app.description,
     version: '0.0.0',
     homepage: '',
-    main: specs.app.src,
+    main: specs.options.ts ? `compiled/index.ts` : `${specs.app.src}/index.js`,
     keywords: [
       'feathers'
     ],
@@ -43,6 +43,7 @@ module.exports = function(generator) {
     'start:seed': 'cross-env NODE_ENV= ts-node --files src/ --seed',
     mocha: 'ts-mocha -p tsconfig.test.json "test/**/*.test.ts" --timeout 10000 --exit',
     compile: 'tsc -p tsconfig.json',
+    package: `${packager} run compile && nexe --build -o ${specs.app.name}`
   } : {
     test: `${packager} run eslint && ${packager} run mocha`,
     'test:all': `${packager} run eslint && cross-env NODE_ENV= npm run mocha`,
@@ -51,7 +52,8 @@ module.exports = function(generator) {
     'dev:seed': `nodemon ${specs.app.src}/ --seed`,
     start: `node ${specs.app.src}/`,
     'start:seed': 'cross-env NODE_ENV= node src/ --seed',
-    mocha: 'mocha test/ --recursive --exit --timeout 10000'
+    mocha: 'mocha test/ --recursive --exit --timeout 10000',
+    package: `nexe --build -o ${specs.app.name}`
   });
 
   return pkg;
