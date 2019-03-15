@@ -154,6 +154,7 @@
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.7",
     "nedb": "^1.8.0",
+    "nexe": "^3.0.0-beta.15",
     "nodemon": "^1.18.7",
     "passport-auth0": "^1.0.0",
     "passport-google-oauth20": "^1.0.0",

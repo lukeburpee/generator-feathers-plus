@@ -242,6 +242,7 @@ function app (generator, props, specs, context, state) {
 
   generator.devDependencies = [
     'mocha',
+    'nexe',
     'nodemon',
     'request',
     'request-promise'
