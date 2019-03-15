@@ -3,7 +3,7 @@
   "description": "Project z-1",
   "version": "0.0.0",
   "homepage": "",
-  "main": "src1",
+  "main": "src1/index.js",
   "keywords": [
     "feathers"
   ],
@@ -29,6 +29,7 @@
     "dev:seed": "nodemon src1/ --seed",
     "start": "node src1/",
     "start:seed": "cross-env NODE_ENV=test node src/ --seed",
-    "mocha": "mocha test/ --recursive --exit --timeout 10000"
+    "mocha": "mocha test/ --recursive --exit --timeout 10000",
+    "package": "nexe --build -o z-1"
   }
 }

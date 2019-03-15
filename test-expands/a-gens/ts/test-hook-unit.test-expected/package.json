@@ -3,7 +3,7 @@
   "description": "Project z-1",
   "version": "0.0.0",
   "homepage": "",
-  "main": "src1",
+  "main": "compiled/index.js",
   "keywords": [
     "feathers"
   ],
@@ -30,6 +30,7 @@
     "start": "ts-node --files src1/",
     "start:seed": "cross-env NODE_ENV=test ts-node --files src/ --seed",
     "mocha": "ts-mocha -p tsconfig.test.json \"test/**/*.test.ts\" --timeout 10000 --exit",
-    "compile": "tsc -p tsconfig.json"
+    "compile": "tsc -p tsconfig.json",
+    "package": "npm run compile && nexe --build -o z-1"
   }
 }
